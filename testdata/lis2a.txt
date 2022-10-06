@@ -1,0 +1,603 @@
+H|\^&|||OrgName|123 Easy Street^TheCity, TheState  ZIP||||||P|NCCLS LIS2-A|20221004013849
+P|1||||^^||||||||^|-1||||||||
+C|1|P|Pat Coded Note 1:^^
+C|2|P|Pat Coded Note 2:^^
+C|3|P|Pat Coded Note 3:^^
+C|4|P|Pat Coded Note 4:^^
+C|5|P|NOTE 1^
+C|6|P|NOTE 2^
+C|7|P|NOTE 3^
+C|8|P|Pat Coded Note 5:^^
+C|9|P|Pat Coded Note 6:^^
+O|1|XID00126147-01^A^|2202^2210|^^^ID2^GNID G-ve/Auto 18Hr ID^CD274E3SID2033^20221001015306^3^|R||||||N|||20221001013247|ANY^ANY SOURCE|^|||HUMAN^Human||||||F||^|N
+C|1|L|Spec Coded Note 1:^^
+C|2|L|Spec Coded Note 2:^^
+C|3|L|Spec Coded Note 3:^^
+C|4|L|NOTE 1^
+C|5|L|NOTE 2^
+C|6|L|NOTE 3^
+C|7|L|PRELIMID^P.AER^Pseudomonas aeruginosa^P.aeruginosa
+C|8|L|PRE-DATE^20221001015507
+C|9|L|FINALID^P.AER^Pseudomonas aeruginosa^P.aeruginosa
+C|10|L|FINAL-DATE^20221001015507
+C|11|L|Spec Coded Note 4:^^
+C|12|L|Spec Coded Note 5:^^
+C|13|L|Spec Coded Note 6:^^
+C|14|L|DUPLICATE^NO
+C|15|L|ISOLATE-COMMENT^
+C|16|L|Iso Coded Note 1:^^
+C|17|L|Iso Coded Note 2:^^
+C|18|L|Iso Coded Note 3:^^
+C|19|L|Iso Coded Note 4:^^
+R|1|^^^ID^ORG1|P.STUT^Pseudomonas stutzeri^P.stutzeri
+C|1|I|TESTAGN^ARABIN^Arabinose^Arabinose^0.010
+R|2|^^^ID^ORG2|P.AER^Pseudomonas aeruginosa^P.aeruginosa
+C|1|I|TESTAGN^LYSINE^Lysine^Lysine^0.860
+R|3|^^^ID^ORG3|P.PUT^Pseudomonas putida^P.putida
+C|1|I|TESTAGN^ARABIN^Arabinose^Arabinose^0.120
+C|2|I|TESTAGN^FR5^FR5^FR5^0.120
+R|4|^^^ID^GROUPORG|PSE.SP^Pseudomonas species^Pseudomon.sp
+R|5|^^^ID^WILCOX1|0.4228480830
+R|6|^^^ID^WILCOX2|0.3962637313
+R|7|^^^ID^WILCOX3|0.1392741911
+R|8|^^^ID^GROUPCOX|0.9583860054
+R|9|^^^ID^QUALITY|EX.GRP^Excellent Group
+R|10|^^^ID^BIOCODE1|134252687^0800888F
+R|11|^^^ID^BIOCODE2|0^00000000
+R|12|^^^ID^BIOCODE3|0^00000000
+O|2|XID00126147-01^A^|2202^2210|^^^^^^^^|R||||||N|||20221001013247|ANY^ANY SOURCE|^|||HUMAN^Human||||||F||^|N
+C|1|L|Spec Coded Note 1:^^
+C|2|L|Spec Coded Note 2:^^
+C|3|L|Spec Coded Note 3:^^
+C|4|L|NOTE 1^
+C|5|L|NOTE 2^
+C|6|L|NOTE 3^
+C|7|L|PRELIMID^P.AER^Pseudomonas aeruginosa^P.aeruginosa
+C|8|L|PRE-DATE^20221001015507
+C|9|L|FINALID^P.AER^Pseudomonas aeruginosa^P.aeruginosa
+C|10|L|FINAL-DATE^20221001015507
+C|11|L|Spec Coded Note 4:^^
+C|12|L|Spec Coded Note 5:^^
+C|13|L|Spec Coded Note 6:^^
+C|14|L|DUPLICATE^NO
+C|15|L|ISOLATE-COMMENT^
+C|16|L|Iso Coded Note 1:^^
+C|17|L|Iso Coded Note 2:^^
+C|18|L|Iso Coded Note 3:^^
+C|19|L|Iso Coded Note 4:^^
+R|1|^^^MACCON^Growth on MacConkey^ADDITIONAL TEST|^+
+R|1|^^^OXIDAS^Oxidase^ADDITIONAL TEST|^+
+R|2|^^^BETA^Beta-lactamase^OFFLINE TEST|^+
+O|3|XID00126147-01^A^|2202^2210|^^^EZP7^GN7F GRAM NEGATIVE 24H MIC/BP^CD050DLEZP2011^20221001015559^1^|R||||||N|||20221001014307|ANY^ANY SOURCE|^|||HUMAN^Human||||||F||^|N
+C|1|L|Spec Coded Note 1:^^
+C|2|L|Spec Coded Note 2:^^
+C|3|L|Spec Coded Note 3:^^
+C|4|L|NOTE 1^
+C|5|L|NOTE 2^
+C|6|L|NOTE 3^
+C|7|L|PRELIMID^P.AER^Pseudomonas aeruginosa^P.aeruginosa
+C|8|L|PRE-DATE^20221001015507
+C|9|L|FINALID^P.AER^Pseudomonas aeruginosa^P.aeruginosa
+C|10|L|FINAL-DATE^20221001015507
+C|11|L|Spec Coded Note 4:^^
+C|12|L|Spec Coded Note 5:^^
+C|13|L|Spec Coded Note 6:^^
+C|14|L|DUPLICATE^NO
+C|15|L|ISOLATE-COMMENT^
+C|16|L|Iso Coded Note 1:^^
+C|17|L|Iso Coded Note 2:^^
+C|18|L|Iso Coded Note 3:^^
+C|19|L|Iso Coded Note 4:^^
+R|1|^^^AMIKAC^Amikacin^Amikacin^MIC-BP|<=8.0000^1
+R|2|^^^AMIKAC^Amikacin^Amikacin^INTERP|SUSC^Susceptible
+R|1|^^^AMPICI^Ampicillin^Ampicillin^MIC-BP|>16.0000^1
+R|2|^^^AMPICI^Ampicillin^Ampicillin^INTERP|RESIST^Resistant
+R|1|^^^AMPSUL^Ampicillin/Sulbactam^Amp/Sulb^MIC-BP|>16.0000^1
+R|2|^^^AMPSUL^Ampicillin/Sulbactam^Amp/Sulb^INTERP|RESIST^Resistant
+R|1|^^^AZTREO^Aztreonam^Aztreonam^MIC-BP|2.0000^0
+R|2|^^^AZTREO^Aztreonam^Aztreonam^INTERP|SUSC^Susceptible
+R|1|^^^CEFAZO^Cefazolin^Cefazolin^MIC-BP|>16.0000^1
+R|2|^^^CEFAZO^Cefazolin^Cefazolin^INTERP|RESIST^Resistant
+R|1|^^^CEFEPI^Cefepime^Cefepime^MIC-BP|<=2.0000^0
+R|2|^^^CEFEPI^Cefepime^Cefepime^INTERP|SUSC^Susceptible
+R|1|^^^CEFTAZ^Ceftazidime^Ceftazidime^MIC-BP|<=1.0000^0
+R|2|^^^CEFTAZ^Ceftazidime^Ceftazidime^INTERP|SUSC^Susceptible
+R|1|^^^CEFTRI^Ceftriaxone^Ceftriaxone^MIC-BP|>32.0000^1
+R|2|^^^CEFTRI^Ceftriaxone^Ceftriaxone^INTERP|RESIST^Resistant
+R|1|^^^CFZAVI^Ceftazidime/Avibactam^Ceftaz/Avi^MIC-BP|<=2.0000^0
+R|2|^^^CFZAVI^Ceftazidime/Avibactam^Ceftaz/Avi^INTERP|SUSC^Susceptible
+R|1|^^^CIPROF^Ciprofloxacin^Ciproflox^MIC-BP|<=0.2500^0
+R|2|^^^CIPROF^Ciprofloxacin^Ciproflox^INTERP|SUSC^Susceptible
+R|1|^^^DORIPE^Doripenem^Doripenem^MIC-BP|<=0.5000^0
+R|2|^^^DORIPE^Doripenem^Doripenem^INTERP|SUSC^Susceptible
+R|1|^^^ERTAPE^Ertapenem^Ertapenem^MIC-BP|4.0000^1
+R|2|^^^ERTAPE^Ertapenem^Ertapenem^INTERP|RESIST^Resistant
+R|1|^^^FZNTAZ^Ceftolozane/Tazobactam 4^CXA-101/TAZ4^MIC-BP|<=2.0000^0
+R|2|^^^FZNTAZ^Ceftolozane/Tazobactam 4^CXA-101/TAZ4^INTERP|SUSC^Susceptible
+R|1|^^^GENTAM^Gentamicin^Gentamicin^MIC-BP|<=2.0000^1
+R|2|^^^GENTAM^Gentamicin^Gentamicin^INTERP|SUSC^Susceptible
+R|1|^^^IMIPEN^Imipenem^Imipenem^MIC-BP|2.0000^0
+R|2|^^^IMIPEN^Imipenem^Imipenem^INTERP|SUSC^Susceptible
+R|1|^^^LEVOFL^Levofloxacin^Levofloxacin^MIC-BP|<=0.5000^0
+R|2|^^^LEVOFL^Levofloxacin^Levofloxacin^INTERP|SUSC^Susceptible
+R|1|^^^MEROPE^Meropenem^Meropenem^MIC-BP|<=0.5000^0
+R|2|^^^MEROPE^Meropenem^Meropenem^INTERP|SUSC^Susceptible
+R|1|^^^MINOCY^Minocycline^Minocycline^MIC-BP|4.0000^1
+R|2|^^^MINOCY^Minocycline^Minocycline^INTERP|RESIST^Resistant
+R|1|^^^NITRO^Nitrofurantoin^Nitrofuran^MIC-BP|>64.0000^1
+R|2|^^^NITRO^Nitrofurantoin^Nitrofuran^INTERP|NOINTP^No Interpretation
+R|1|^^^PIPTAZ^Piperacillin/Tazobactam^Pipera/Tazob^MIC-BP|<=8.0000^4
+R|2|^^^PIPTAZ^Piperacillin/Tazobactam^Pipera/Tazob^INTERP|SUSC^Susceptible
+R|1|^^^POSCTL^Positive Growth Control^Positive Ctl^MIC-BP|3569.0000^1
+R|2|^^^POSCTL^Positive Growth Control^Positive Ctl^INTERP|OKCTRL^Valid Growth Control
+R|1|^^^TETRA^Tetracycline^Tetracycline^MIC-BP|>8.0000^1
+R|2|^^^TETRA^Tetracycline^Tetracycline^INTERP|RESIST^Resistant
+R|1|^^^TIGECY^Tigecycline^Tigecycline^MIC-BP|4.0000^1
+R|2|^^^TIGECY^Tigecycline^Tigecycline^INTERP|RESIST^Resistant
+R|1|^^^TOBRAM^Tobramycin^Tobramycin^MIC-BP|<=2.0000^1
+R|2|^^^TOBRAM^Tobramycin^Tobramycin^INTERP|SUSC^Susceptible
+R|1|^^^TRISUL^Trimethoprim/Sulfamethoxazole^Trim/Sulmeth^MIC-BP|<=2.0000^1
+R|2|^^^TRISUL^Trimethoprim/Sulfamethoxazole^Trim/Sulmeth^INTERP|RESIST^Resistant
+O|4|XID00126147-01^A^|2202^2210|^^^PO7^GPID G+ve/Automatic 24Hr ID^CD1HJN2SPO7033^20221001020321^3^|R||||||N|||20221001020240|ANY^ANY SOURCE|^|||HUMAN^Human||||||F||^|N
+C|1|L|Spec Coded Note 1:^^
+C|2|L|Spec Coded Note 2:^^
+C|3|L|Spec Coded Note 3:^^
+C|4|L|NOTE 1^
+C|5|L|NOTE 2^
+C|6|L|NOTE 3^
+C|7|L|PRELIMID^P.AER^Pseudomonas aeruginosa^P.aeruginosa
+C|8|L|PRE-DATE^20221001015507
+C|9|L|FINALID^P.AER^Pseudomonas aeruginosa^P.aeruginosa
+C|10|L|FINAL-DATE^20221001015507
+C|11|L|Spec Coded Note 4:^^
+C|12|L|Spec Coded Note 5:^^
+C|13|L|Spec Coded Note 6:^^
+C|14|L|DUPLICATE^NO
+C|15|L|ISOLATE-COMMENT^
+C|16|L|Iso Coded Note 1:^^
+C|17|L|Iso Coded Note 2:^^
+C|18|L|Iso Coded Note 3:^^
+C|19|L|Iso Coded Note 4:^^
+R|1|^^^ID^ORG1|^^
+R|2|^^^ID^ORG2|^^
+R|3|^^^ID^ORG3|^^
+R|4|^^^ID^GROUPORG|^^
+R|5|^^^ID^WILCOX1|0.0000000000
+R|6|^^^ID^WILCOX2|0.0000000000
+R|7|^^^ID^WILCOX3|0.0000000000
+R|8|^^^ID^GROUPCOX|0.0000000000
+R|9|^^^ID^QUALITY|NOID^No Identification Possible
+R|10|^^^ID^BIOCODE1|1809383166^6BD8FEFE
+R|11|^^^ID^BIOCODE2|0^00000000
+R|12|^^^ID^BIOCODE3|0^00000000
+P|2|XID00113027||33|Last1^First1^||19450520|F|||||^|82|Y|||||||
+C|1|P|Pat Coded Note 1:^^
+C|2|P|Pat Coded Note 2:^^
+C|3|P|Pat Coded Note 3:^^
+C|4|P|Pat Coded Note 4:^^
+C|5|P|NOTE 1^
+C|6|P|NOTE 2^
+C|7|P|NOTE 3^
+C|8|P|Pat Coded Note 5:^^
+C|9|P|Pat Coded Note 6:^^
+O|1|XID00113027-01^A^|1122^1129|^^^ID2^GNID G-ve/Auto 18Hr ID^CD274D1SID2033^20220917003321^2^|R||||||N|||20220917003303|U^Urine|^|||HUMAN^Human||||||F||^|N
+C|1|L|Spec Coded Note 1:^^
+C|2|L|Spec Coded Note 2:^^
+C|3|L|Spec Coded Note 3:^^
+C|4|L|NOTE 1^
+C|5|L|NOTE 2^
+C|6|L|NOTE 3^
+C|7|L|PRELIMID^E.COL^Escherichia coli^E.coli
+C|8|L|PRE-DATE^20220917004256
+C|9|L|FINALID^E.COL^Escherichia coli^E.coli
+C|10|L|FINAL-DATE^20220917004256
+C|11|L|Spec Coded Note 4:^^
+C|12|L|Spec Coded Note 5:^^
+C|13|L|Spec Coded Note 6:^^
+C|14|L|DUPLICATE^NO
+C|15|L|ISOLATE-COMMENT^
+C|16|L|Iso Coded Note 1:^^
+C|17|L|Iso Coded Note 2:^^
+C|18|L|Iso Coded Note 3:^^
+C|19|L|Iso Coded Note 4:^^
+R|1|^^^ID^ORG1|K.CRY^Kluyvera cryocrescens^K.cryocresce
+C|1|I|TESTAGN^CELLOB^Cellobiose^Cellobiose^0.990
+C|2|I|TESTAGN^FR9^FR9^FR9^0.140
+C|3|I|TESTAGN^SORBIT^Sorbitol^Sorbitol^0.140
+C|4|I|TESTAGN^UREA^Urea^Urea^0.140
+R|2|^^^ID^ORG2|E.COL^Escherichia coli^E.coli
+C|1|I|TESTAGN^AESCUL^Aesculin^Aesculin^0.020
+C|2|I|TESTAGN^AGMATI^Agmatine^Agmatine^0.960
+C|3|I|TESTAGN^UREA^Urea^Urea^0.010
+R|3|^^^ID^ORG3|^^
+R|4|^^^ID^GROUPORG|^^
+R|5|^^^ID^WILCOX1|0.5971210211
+R|6|^^^ID^WILCOX2|0.4028789789
+R|7|^^^ID^WILCOX3|0.0000000000
+R|8|^^^ID^GROUPCOX|0.0000000000
+R|9|^^^ID^QUALITY|LOWSEL^Low Selectivity
+R|10|^^^ID^BIOCODE1|2144955808^7FD96DA0
+R|11|^^^ID^BIOCODE2|0^00000000
+R|12|^^^ID^BIOCODE3|0^00000000
+O|2|XID00113027-01^A^|1122^1129|^^^^^^^^|R||||||N|||20220917003303|U^Urine|^|||HUMAN^Human||||||F||^|N
+C|1|L|Spec Coded Note 1:^^
+C|2|L|Spec Coded Note 2:^^
+C|3|L|Spec Coded Note 3:^^
+C|4|L|NOTE 1^
+C|5|L|NOTE 2^
+C|6|L|NOTE 3^
+C|7|L|PRELIMID^E.COL^Escherichia coli^E.coli
+C|8|L|PRE-DATE^20220917004256
+C|9|L|FINALID^E.COL^Escherichia coli^E.coli
+C|10|L|FINAL-DATE^20220917004256
+C|11|L|Spec Coded Note 4:^^
+C|12|L|Spec Coded Note 5:^^
+C|13|L|Spec Coded Note 6:^^
+C|14|L|DUPLICATE^NO
+C|15|L|ISOLATE-COMMENT^
+C|16|L|Iso Coded Note 1:^^
+C|17|L|Iso Coded Note 2:^^
+C|18|L|Iso Coded Note 3:^^
+C|19|L|Iso Coded Note 4:^^
+R|1|^^^INDOLE^Indole^ADDITIONAL TEST|^0
+R|1|^^^MOTILI^Motility^ADDITIONAL TEST|^0
+O|3|XID00113027-01^A^|1122^1129|^^^EZP7^GN7F GRAM NEGATIVE 24H MIC/BP^CD04YZLEZP2011^20220917004124^1^|R||||||N|||20220917004120|U^Urine|^|||HUMAN^Human||||||F||^|N
+C|1|L|Spec Coded Note 1:^^
+C|2|L|Spec Coded Note 2:^^
+C|3|L|Spec Coded Note 3:^^
+C|4|L|NOTE 1^
+C|5|L|NOTE 2^
+C|6|L|NOTE 3^
+C|7|L|PRELIMID^E.COL^Escherichia coli^E.coli
+C|8|L|PRE-DATE^20220917004256
+C|9|L|FINALID^E.COL^Escherichia coli^E.coli
+C|10|L|FINAL-DATE^20220917004256
+C|11|L|Spec Coded Note 4:^^
+C|12|L|Spec Coded Note 5:^^
+C|13|L|Spec Coded Note 6:^^
+C|14|L|DUPLICATE^NO
+C|15|L|ISOLATE-COMMENT^
+C|16|L|Iso Coded Note 1:^^
+C|17|L|Iso Coded Note 2:^^
+C|18|L|Iso Coded Note 3:^^
+C|19|L|Iso Coded Note 4:^^
+R|1|^^^AMIKAC^Amikacin^Amikacin^MIC-BP|<=8.0000^1
+R|2|^^^AMIKAC^Amikacin^Amikacin^INTERP|SUSC^Susceptible
+R|1|^^^AMPICI^Ampicillin^Ampicillin^MIC-BP|<=8.0000^1
+R|2|^^^AMPICI^Ampicillin^Ampicillin^INTERP|SUSC^Susceptible
+R|1|^^^AMPSUL^Ampicillin/Sulbactam^Amp/Sulb^MIC-BP|<=4.0000^1
+R|2|^^^AMPSUL^Ampicillin/Sulbactam^Amp/Sulb^INTERP|SUSC^Susceptible
+R|1|^^^AZTREO^Aztreonam^Aztreonam^MIC-BP|<=1.0000^0
+R|2|^^^AZTREO^Aztreonam^Aztreonam^INTERP|SUSC^Susceptible
+R|1|^^^CEFAZO^Cefazolin^Cefazolin^MIC-BP|2.0000^0
+R|2|^^^CEFAZO^Cefazolin^Cefazolin^INTERP|SUSC^Susceptible
+R|1|^^^CEFEPI^Cefepime^Cefepime^MIC-BP|<=2.0000^0
+R|2|^^^CEFEPI^Cefepime^Cefepime^INTERP|SUSC^Susceptible
+R|1|^^^CEFTAZ^Ceftazidime^Ceftazidime^MIC-BP|<=1.0000^0
+R|2|^^^CEFTAZ^Ceftazidime^Ceftazidime^INTERP|SUSC^Susceptible
+R|1|^^^CEFTRI^Ceftriaxone^Ceftriaxone^MIC-BP|<=0.5000^0
+R|2|^^^CEFTRI^Ceftriaxone^Ceftriaxone^INTERP|SUSC^Susceptible
+R|1|^^^CFZAVI^Ceftazidime/Avibactam^Ceftaz/Avi^MIC-BP|<=2.0000^0
+R|2|^^^CFZAVI^Ceftazidime/Avibactam^Ceftaz/Avi^INTERP|SUSC^Susceptible
+R|1|^^^CIPROF^Ciprofloxacin^Ciproflox^MIC-BP|>2.0000^0
+R|2|^^^CIPROF^Ciprofloxacin^Ciproflox^INTERP|RESIST^Resistant
+R|1|^^^DORIPE^Doripenem^Doripenem^MIC-BP|1.0000^0
+R|2|^^^DORIPE^Doripenem^Doripenem^INTERP|SUSC^Susceptible
+R|1|^^^ERTAPE^Ertapenem^Ertapenem^MIC-BP|<=0.2500^0
+R|2|^^^ERTAPE^Ertapenem^Ertapenem^INTERP|SUSC^Susceptible
+R|1|^^^FZNTAZ^Ceftolozane/Tazobactam 4^CXA-101/TAZ4^MIC-BP|<=2.0000^0
+R|2|^^^FZNTAZ^Ceftolozane/Tazobactam 4^CXA-101/TAZ4^INTERP|SUSC^Susceptible
+R|1|^^^GENTAM^Gentamicin^Gentamicin^MIC-BP|<=2.0000^1
+R|2|^^^GENTAM^Gentamicin^Gentamicin^INTERP|SUSC^Susceptible
+R|1|^^^IMIPEN^Imipenem^Imipenem^MIC-BP|<=1.0000^0
+R|2|^^^IMIPEN^Imipenem^Imipenem^INTERP|SUSC^Susceptible
+R|1|^^^LEVOFL^Levofloxacin^Levofloxacin^MIC-BP|8.0000^0
+R|2|^^^LEVOFL^Levofloxacin^Levofloxacin^INTERP|RESIST^Resistant
+R|1|^^^MEROPE^Meropenem^Meropenem^MIC-BP|<=0.5000^0
+R|2|^^^MEROPE^Meropenem^Meropenem^INTERP|SUSC^Susceptible
+R|1|^^^MINOCY^Minocycline^Minocycline^MIC-BP|4.0000^0
+R|2|^^^MINOCY^Minocycline^Minocycline^INTERP|SUSC^Susceptible
+R|1|^^^NITRO^Nitrofurantoin^Nitrofuran^MIC-BP|<=32.0000^1
+R|2|^^^NITRO^Nitrofurantoin^Nitrofuran^INTERP|SUSC^Susceptible
+R|1|^^^PIPTAZ^Piperacillin/Tazobactam^Pipera/Tazob^MIC-BP|<=8.0000^0
+R|2|^^^PIPTAZ^Piperacillin/Tazobactam^Pipera/Tazob^INTERP|SUSC^Susceptible
+R|1|^^^POSCTL^Positive Growth Control^Positive Ctl^MIC-BP|2700.6667^1
+R|2|^^^POSCTL^Positive Growth Control^Positive Ctl^INTERP|OKCTRL^Valid Growth Control
+R|1|^^^TETRA^Tetracycline^Tetracycline^MIC-BP|>8.0000^1
+R|2|^^^TETRA^Tetracycline^Tetracycline^INTERP|RESIST^Resistant
+R|1|^^^TIGECY^Tigecycline^Tigecycline^MIC-BP|<=1.0000^0
+R|2|^^^TIGECY^Tigecycline^Tigecycline^INTERP|NOINTP^No Interpretation
+R|1|^^^TOBRAM^Tobramycin^Tobramycin^MIC-BP|<=2.0000^1
+R|2|^^^TOBRAM^Tobramycin^Tobramycin^INTERP|SUSC^Susceptible
+R|1|^^^TRISUL^Trimethoprim/Sulfamethoxazole^Trim/Sulmeth^MIC-BP|<=2.0000^1
+R|2|^^^TRISUL^Trimethoprim/Sulfamethoxazole^Trim/Sulmeth^INTERP|SUSC^Susceptible
+O|4|XID00113027-01^A^|1122^1129|^^^ID2^GNID G-ve/Auto 18Hr ID^CD274EHSID2033^20220921022046^2^|R||||||N|||20220921022012|U^Urine|^|||HUMAN^Human||||||F||^|N
+C|1|L|Spec Coded Note 1:^^
+C|2|L|Spec Coded Note 2:^^
+C|3|L|Spec Coded Note 3:^^
+C|4|L|NOTE 1^
+C|5|L|NOTE 2^
+C|6|L|NOTE 3^
+C|7|L|PRELIMID^E.COL^Escherichia coli^E.coli
+C|8|L|PRE-DATE^20220917004256
+C|9|L|FINALID^E.COL^Escherichia coli^E.coli
+C|10|L|FINAL-DATE^20220917004256
+C|11|L|Spec Coded Note 4:^^
+C|12|L|Spec Coded Note 5:^^
+C|13|L|Spec Coded Note 6:^^
+C|14|L|DUPLICATE^NO
+C|15|L|ISOLATE-COMMENT^
+C|16|L|Iso Coded Note 1:^^
+C|17|L|Iso Coded Note 2:^^
+C|18|L|Iso Coded Note 3:^^
+C|19|L|Iso Coded Note 4:^^
+R|1|^^^ID^ORG1|E.GER^Enterobacter gergoviae^E.gergoviae
+C|1|I|TESTAGN^FR1^FR1^FR1^0.050
+C|2|I|TESTAGN^MALONA^Malonate^Malonate^0.890
+R|2|^^^ID^ORG2|E.AER^Klebsiella aerogenes^K.aerogenes
+C|1|I|TESTAGN^MALONA^Malonate^Malonate^0.930
+C|2|I|TESTAGN^UREA^Urea^Urea^0.010
+R|3|^^^ID^ORG3|K.GP47^Klebsiella group 47^K.group 47
+C|1|I|TESTAGN^FR1^FR1^FR1^0.010
+C|2|I|TESTAGN^MALONA^Malonate^Malonate^0.990
+R|4|^^^ID^GROUPORG|^^
+R|5|^^^ID^WILCOX1|0.5924070364
+R|6|^^^ID^WILCOX2|0.1853613768
+R|7|^^^ID^WILCOX3|0.0843799720
+R|8|^^^ID^GROUPCOX|0.0000000000
+R|9|^^^ID^QUALITY|LOWSEL^Low Selectivity
+R|10|^^^ID^BIOCODE1|-19169865^FEDB7DB7
+R|11|^^^ID^BIOCODE2|0^00000000
+R|12|^^^ID^BIOCODE3|0^00000000
+P|3|GX110914137||34|Last2^First2^||19380615|F|||||^|88|Y|||||||
+C|1|P|Pat Coded Note 1:^^
+C|2|P|Pat Coded Note 2:^^
+C|3|P|Pat Coded Note 3:^^
+C|4|P|Pat Coded Note 4:^^
+C|5|P|NOTE 1^
+C|6|P|NOTE 2^
+C|7|P|NOTE 3^
+C|8|P|Pat Coded Note 5:^^
+C|9|P|Pat Coded Note 6:^^
+O|1|XID00114137-01^A^|1123^1130|^^^ID2^GNID G-ve/Auto 18Hr ID^CD277JVSID2033^20220917004507^1^|R||||||N|||20220917004448|U^Urine|^|||HUMAN^Human||||||F||^|N
+C|1|L|Spec Coded Note 1:^^
+C|2|L|Spec Coded Note 2:^^
+C|3|L|Spec Coded Note 3:^^
+C|4|L|NOTE 1^
+C|5|L|NOTE 2^
+C|6|L|NOTE 3^
+C|7|L|PRELIMID^E.COL^Escherichia coli^E.coli
+C|8|L|PRE-DATE^20220917004448
+C|9|L|FINALID^E.COL^Escherichia coli^E.coli
+C|10|L|FINAL-DATE^20220917004448
+C|11|L|Spec Coded Note 4:^^
+C|12|L|Spec Coded Note 5:^^
+C|13|L|Spec Coded Note 6:^^
+C|14|L|DUPLICATE^NO
+C|15|L|ISOLATE-COMMENT^
+C|16|L|Iso Coded Note 1:^^
+C|17|L|Iso Coded Note 2:^^
+C|18|L|Iso Coded Note 3:^^
+C|19|L|Iso Coded Note 4:^^
+R|1|^^^ID^ORG1|E.COL^Escherichia coli^E.coli
+R|2|^^^ID^ORG2|^^
+R|3|^^^ID^ORG3|^^
+R|4|^^^ID^GROUPORG|^^
+R|5|^^^ID^WILCOX1|1.0000000000
+R|6|^^^ID^WILCOX2|0.0000000000
+R|7|^^^ID^WILCOX3|0.0000000000
+R|8|^^^ID^GROUPCOX|0.0000000000
+R|9|^^^ID^QUALITY|EXCELL^Excellent
+R|10|^^^ID^BIOCODE1|1037651169^3DD94CE1
+R|11|^^^ID^BIOCODE2|0^00000000
+R|12|^^^ID^BIOCODE3|0^00000000
+O|2|XID00114137-01^A^|1123^1130|^^^EZP7^GN7F GRAM NEGATIVE 24H MIC/BP^CD04YZIEZP2011^20220917004609^1^|R||||||N|||20220917004608|U^Urine|^|||HUMAN^Human||||||F||^|N
+C|1|L|Spec Coded Note 1:^^
+C|2|L|Spec Coded Note 2:^^
+C|3|L|Spec Coded Note 3:^^
+C|4|L|NOTE 1^
+C|5|L|NOTE 2^
+C|6|L|NOTE 3^
+C|7|L|PRELIMID^E.COL^Escherichia coli^E.coli
+C|8|L|PRE-DATE^20220917004448
+C|9|L|FINALID^E.COL^Escherichia coli^E.coli
+C|10|L|FINAL-DATE^20220917004448
+C|11|L|Spec Coded Note 4:^^
+C|12|L|Spec Coded Note 5:^^
+C|13|L|Spec Coded Note 6:^^
+C|14|L|DUPLICATE^NO
+C|15|L|ISOLATE-COMMENT^
+C|16|L|Iso Coded Note 1:^^
+C|17|L|Iso Coded Note 2:^^
+C|18|L|Iso Coded Note 3:^^
+C|19|L|Iso Coded Note 4:^^
+R|1|^^^AMIKAC^Amikacin^Amikacin^MIC-BP|<=8.0000^1
+R|2|^^^AMIKAC^Amikacin^Amikacin^INTERP|SUSC^Susceptible
+R|1|^^^AMPICI^Ampicillin^Ampicillin^MIC-BP|<=8.0000^1
+R|2|^^^AMPICI^Ampicillin^Ampicillin^INTERP|SUSC^Susceptible
+R|1|^^^AMPSUL^Ampicillin/Sulbactam^Amp/Sulb^MIC-BP|<=4.0000^1
+R|2|^^^AMPSUL^Ampicillin/Sulbactam^Amp/Sulb^INTERP|SUSC^Susceptible
+R|1|^^^AZTREO^Aztreonam^Aztreonam^MIC-BP|<=1.0000^0
+R|2|^^^AZTREO^Aztreonam^Aztreonam^INTERP|SUSC^Susceptible
+R|1|^^^CEFAZO^Cefazolin^Cefazolin^MIC-BP|2.0000^0
+R|2|^^^CEFAZO^Cefazolin^Cefazolin^INTERP|SUSC^Susceptible
+R|1|^^^CEFEPI^Cefepime^Cefepime^MIC-BP|<=2.0000^0
+R|2|^^^CEFEPI^Cefepime^Cefepime^INTERP|SUSC^Susceptible
+R|1|^^^CEFTAZ^Ceftazidime^Ceftazidime^MIC-BP|<=1.0000^0
+R|2|^^^CEFTAZ^Ceftazidime^Ceftazidime^INTERP|SUSC^Susceptible
+R|1|^^^CEFTRI^Ceftriaxone^Ceftriaxone^MIC-BP|<=0.5000^0
+R|2|^^^CEFTRI^Ceftriaxone^Ceftriaxone^INTERP|SUSC^Susceptible
+R|1|^^^CFZAVI^Ceftazidime/Avibactam^Ceftaz/Avi^MIC-BP|<=2.0000^0
+R|2|^^^CFZAVI^Ceftazidime/Avibactam^Ceftaz/Avi^INTERP|SUSC^Susceptible
+R|1|^^^CIPROF^Ciprofloxacin^Ciproflox^MIC-BP|<=0.2500^0
+R|2|^^^CIPROF^Ciprofloxacin^Ciproflox^INTERP|SUSC^Susceptible
+R|1|^^^DORIPE^Doripenem^Doripenem^MIC-BP|<=0.5000^0
+R|2|^^^DORIPE^Doripenem^Doripenem^INTERP|SUSC^Susceptible
+R|1|^^^ERTAPE^Ertapenem^Ertapenem^MIC-BP|<=0.2500^0
+R|2|^^^ERTAPE^Ertapenem^Ertapenem^INTERP|SUSC^Susceptible
+R|1|^^^FZNTAZ^Ceftolozane/Tazobactam 4^CXA-101/TAZ4^MIC-BP|<=2.0000^0
+R|2|^^^FZNTAZ^Ceftolozane/Tazobactam 4^CXA-101/TAZ4^INTERP|SUSC^Susceptible
+R|1|^^^GENTAM^Gentamicin^Gentamicin^MIC-BP|<=2.0000^1
+R|2|^^^GENTAM^Gentamicin^Gentamicin^INTERP|SUSC^Susceptible
+R|1|^^^IMIPEN^Imipenem^Imipenem^MIC-BP|<=1.0000^0
+R|2|^^^IMIPEN^Imipenem^Imipenem^INTERP|SUSC^Susceptible
+R|1|^^^LEVOFL^Levofloxacin^Levofloxacin^MIC-BP|<=0.5000^0
+R|2|^^^LEVOFL^Levofloxacin^Levofloxacin^INTERP|SUSC^Susceptible
+R|1|^^^MEROPE^Meropenem^Meropenem^MIC-BP|<=0.5000^0
+R|2|^^^MEROPE^Meropenem^Meropenem^INTERP|SUSC^Susceptible
+R|1|^^^MINOCY^Minocycline^Minocycline^MIC-BP|<=1.0000^0
+R|2|^^^MINOCY^Minocycline^Minocycline^INTERP|SUSC^Susceptible
+R|1|^^^NITRO^Nitrofurantoin^Nitrofuran^MIC-BP|<=32.0000^1
+R|2|^^^NITRO^Nitrofurantoin^Nitrofuran^INTERP|SUSC^Susceptible
+R|1|^^^PIPTAZ^Piperacillin/Tazobactam^Pipera/Tazob^MIC-BP|<=8.0000^0
+R|2|^^^PIPTAZ^Piperacillin/Tazobactam^Pipera/Tazob^INTERP|SUSC^Susceptible
+R|1|^^^POSCTL^Positive Growth Control^Positive Ctl^MIC-BP|3112.6667^1
+R|2|^^^POSCTL^Positive Growth Control^Positive Ctl^INTERP|OKCTRL^Valid Growth Control
+R|1|^^^TETRA^Tetracycline^Tetracycline^MIC-BP|<=4.0000^1
+R|2|^^^TETRA^Tetracycline^Tetracycline^INTERP|SUSC^Susceptible
+R|1|^^^TIGECY^Tigecycline^Tigecycline^MIC-BP|<=1.0000^0
+R|2|^^^TIGECY^Tigecycline^Tigecycline^INTERP|NOINTP^No Interpretation
+R|1|^^^TOBRAM^Tobramycin^Tobramycin^MIC-BP|<=2.0000^1
+R|2|^^^TOBRAM^Tobramycin^Tobramycin^INTERP|SUSC^Susceptible
+R|1|^^^TRISUL^Trimethoprim/Sulfamethoxazole^Trim/Sulmeth^MIC-BP|<=2.0000^1
+R|2|^^^TRISUL^Trimethoprim/Sulfamethoxazole^Trim/Sulmeth^INTERP|SUSC^Susceptible
+O|3|XID00114137-01^A^|1123^1130|^^^ID2^GNID G-ve/Auto 18Hr ID^CD274EPSID2033^20220921022426^1^|R||||||N|||20220921022311|U^Urine|^|||HUMAN^Human||||||F||^|N
+C|1|L|Spec Coded Note 1:^^
+C|2|L|Spec Coded Note 2:^^
+C|3|L|Spec Coded Note 3:^^
+C|4|L|NOTE 1^
+C|5|L|NOTE 2^
+C|6|L|NOTE 3^
+C|7|L|PRELIMID^E.COL^Escherichia coli^E.coli
+C|8|L|PRE-DATE^20220917004448
+C|9|L|FINALID^E.COL^Escherichia coli^E.coli
+C|10|L|FINAL-DATE^20220917004448
+C|11|L|Spec Coded Note 4:^^
+C|12|L|Spec Coded Note 5:^^
+C|13|L|Spec Coded Note 6:^^
+C|14|L|DUPLICATE^NO
+C|15|L|ISOLATE-COMMENT^
+C|16|L|Iso Coded Note 1:^^
+C|17|L|Iso Coded Note 2:^^
+C|18|L|Iso Coded Note 3:^^
+C|19|L|Iso Coded Note 4:^^
+R|1|^^^ID^ORG1|E.COL^Escherichia coli^E.coli
+R|2|^^^ID^ORG2|^^
+R|3|^^^ID^ORG3|^^
+R|4|^^^ID^GROUPORG|^^
+R|5|^^^ID^WILCOX1|1.0000000000
+R|6|^^^ID^WILCOX2|0.0000000000
+R|7|^^^ID^WILCOX3|0.0000000000
+R|8|^^^ID^GROUPCOX|0.0000000000
+R|9|^^^ID^QUALITY|EXCELL^Excellent
+R|10|^^^ID^BIOCODE1|1037651169^3DD94CE1
+R|11|^^^ID^BIOCODE2|0^00000000
+R|12|^^^ID^BIOCODE3|0^00000000
+P|4|XID00114117||1051|Last3^First3^||||||||^|-1|Y|||||||
+C|1|P|Pat Coded Note 1:^^
+C|2|P|Pat Coded Note 2:^^
+C|3|P|Pat Coded Note 3:^^
+C|4|P|Pat Coded Note 4:^^
+C|5|P|NOTE 1^
+C|6|P|NOTE 2^
+C|7|P|NOTE 3^
+C|8|P|Pat Coded Note 5:^^
+C|9|P|Pat Coded Note 6:^^
+O|1|XID00114117-01^A^|2156^2164|^^^PO7^GPID G+ve/Automatic 24Hr ID^CD1HJN6SPO7033^20220921021114^2^|R||||||N|||20220921021055|ANY^ANY SOURCE|^|||HUMAN^Human||||||F||^|N
+C|1|L|Spec Coded Note 1:^^
+C|2|L|Spec Coded Note 2:^^
+C|3|L|Spec Coded Note 3:^^
+C|4|L|NOTE 1^
+C|5|L|NOTE 2^
+C|6|L|NOTE 3^
+C|7|L|PRELIMID^ANY^ANY ORGANISM^Any Organism
+C|8|L|PRE-DATE^20220921021055
+C|9|L|FINALID^ANY^ANY ORGANISM^Any Organism
+C|10|L|FINAL-DATE^20220921021055
+C|11|L|Spec Coded Note 4:^^
+C|12|L|Spec Coded Note 5:^^
+C|13|L|Spec Coded Note 6:^^
+C|14|L|DUPLICATE^NO
+C|15|L|ISOLATE-COMMENT^
+C|16|L|Iso Coded Note 1:^^
+C|17|L|Iso Coded Note 2:^^
+C|18|L|Iso Coded Note 3:^^
+C|19|L|Iso Coded Note 4:^^
+R|1|^^^ID^ORG1|S.HOM^Staph. hominis ss hominis^S.hom-ss-hom
+C|1|I|TESTAGN^ARGINI^Arginine^Arginine^0.140
+C|2|I|TESTAGN^SUCROS^Sucrose^Sucrose^0.960
+R|2|^^^ID^ORG2|S.CAPI^Staph. capitis ss capitis^S.cap-ss-cap
+C|1|I|TESTAGN^FR19^FR19^FR19^0.120
+C|2|I|TESTAGN^FR29^FR29^FR29^0.060
+C|3|I|TESTAGN^TREHAL^Trehalose^Trehalose^0.060
+R|3|^^^ID^ORG3|S.WAR^Staphylococcus warneri^S.warneri
+C|1|I|TESTAGN^SUCROS^Sucrose^Sucrose^0.990
+R|4|^^^ID^GROUPORG|^^
+R|5|^^^ID^WILCOX1|0.5989569722
+R|6|^^^ID^WILCOX2|0.2479162009
+R|7|^^^ID^WILCOX3|0.1357382994
+R|8|^^^ID^GROUPCOX|0.0000000000
+R|9|^^^ID^QUALITY|LOWSEL^Low Selectivity
+R|10|^^^ID^BIOCODE1|-1470880752^A8542410
+R|11|^^^ID^BIOCODE2|0^00000000
+R|12|^^^ID^BIOCODE3|0^00000000
+O|2|XID00114117-01^A^|2156^2164|^^^^^^^^|R||||||N|||20220921021055|ANY^ANY SOURCE|^|||HUMAN^Human||||||F||^|N
+C|1|L|Spec Coded Note 1:^^
+C|2|L|Spec Coded Note 2:^^
+C|3|L|Spec Coded Note 3:^^
+C|4|L|NOTE 1^
+C|5|L|NOTE 2^
+C|6|L|NOTE 3^
+C|7|L|PRELIMID^ANY^ANY ORGANISM^Any Organism
+C|8|L|PRE-DATE^20220921021055
+C|9|L|FINALID^ANY^ANY ORGANISM^Any Organism
+C|10|L|FINAL-DATE^20220921021055
+C|11|L|Spec Coded Note 4:^^
+C|12|L|Spec Coded Note 5:^^
+C|13|L|Spec Coded Note 6:^^
+C|14|L|DUPLICATE^NO
+C|15|L|ISOLATE-COMMENT^
+C|16|L|Iso Coded Note 1:^^
+C|17|L|Iso Coded Note 2:^^
+C|18|L|Iso Coded Note 3:^^
+C|19|L|Iso Coded Note 4:^^
+R|1|^^^A-HAEM^Alpha-haemolysis^ADDITIONAL TEST|^0
+R|1|^^^B-HAEM^Beta-haemolysis^ADDITIONAL TEST|^0
+R|2|^^^YELPIG^Yellow Pigment^OFFLINE TEST|^0
+O|3|XID00114117-01^A^|2156^2164|^^^DZQ7^GPALL3F GRAM POS 24H MIC/BP^CD0KFS1DZQ2011^20220921021425^1^|R||||||N|||20220921021421|ANY^ANY SOURCE|^|||HUMAN^Human||||||F||^|N
+C|1|L|Spec Coded Note 1:^^
+C|2|L|Spec Coded Note 2:^^
+C|3|L|Spec Coded Note 3:^^
+C|4|L|NOTE 1^
+C|5|L|NOTE 2^
+C|6|L|NOTE 3^
+C|7|L|PRELIMID^ANY^ANY ORGANISM^Any Organism
+C|8|L|PRE-DATE^20220921021055
+C|9|L|FINALID^ANY^ANY ORGANISM^Any Organism
+C|10|L|FINAL-DATE^20220921021055
+C|11|L|Spec Coded Note 4:^^
+C|12|L|Spec Coded Note 5:^^
+C|13|L|Spec Coded Note 6:^^
+C|14|L|DUPLICATE^NO
+C|15|L|ISOLATE-COMMENT^
+C|16|L|Iso Coded Note 1:^^
+C|17|L|Iso Coded Note 2:^^
+C|18|L|Iso Coded Note 3:^^
+C|19|L|Iso Coded Note 4:^^
+R|1|^^^AMPICI^Ampicillin^Ampicillin^MIC-BP|<=0.2500^0
+R|2|^^^AMPICI^Ampicillin^Ampicillin^INTERP|NOINTP^No Interpretation
+R|1|^^^CHLORA^Chloramphenicol^Chloramphen^MIC-BP|4.0000^0
+R|2|^^^CHLORA^Chloramphenicol^Chloramphen^INTERP|NOINTP^No Interpretation
+R|1|^^^DTEST1^DTest1^DTEST1^MIC-BP|<=4.0000^1
+R|2|^^^DTEST1^DTest1^DTEST1^INTERP|NOINTP^No Interpretation
+R|1|^^^DTEST2^DTest2^DTEST2^MIC-BP|<=8.0000^1
+R|2|^^^DTEST2^DTest2^DTEST2^INTERP|NOINTP^No Interpretation
+R|1|^^^GEN500^Gentamicin 500 ug/ml^Gentam 500^MIC-BP|<=500.0000^1
+R|2|^^^GEN500^Gentamicin 500 ug/ml^Gentam 500^INTERP|NOINTP^No Interpretation
+R|1|^^^LEVOFL^Levofloxacin^Levofloxacin^MIC-BP|<=0.2500^0
+R|2|^^^LEVOFL^Levofloxacin^Levofloxacin^INTERP|NOINTP^No Interpretation
+R|1|^^^NEGCTL^Negative Growth Control^Negative Ctl^MIC-BP|292.2333^1
+R|2|^^^NEGCTL^Negative Growth Control^Negative Ctl^INTERP|OKCTRL^Valid Growth Control
+R|1|^^^POSCTL^Positive Growth Control^Positive Ctl^MIC-BP|3459.0000^1
+R|2|^^^POSCTL^Positive Growth Control^Positive Ctl^INTERP|OKCTRL^Valid Growth Control
+L|1|N
