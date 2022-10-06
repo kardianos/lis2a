@@ -137,37 +137,45 @@ type O struct {
 type R struct {
 	LIS2A LIS2AName `lis2a:",name=R,type=s"`
 	SetID SI        `lis2a:"1,seq,required,len=4,display=Set ID - R"`
-	ID    UID       `lis2a:"2,required,len=1000,display=Universal Test ID"`
+	ID    GlobalID  `lis2a:"2,required,len=1000,display=Universal Test ID"`
+	Value DataValue `lis2a:"3,required,len=1000,display=Data Value and Interpretation"`
 }
 
 // Comment Record
 type C struct {
-	LIS2A LIS2AName `lis2a:",name=C,type=s"`
-	SetID SI        `lis2a:"1,seq,required,len=4,display=Set ID - C"`
+	LIS2A  LIS2AName   `lis2a:",name=C,type=s"`
+	SetID  SI          `lis2a:"1,seq,required,len=4,display=Set ID - C"`
+	Source ST          `lis2a:"2,required,len=1,display=Comment Source: P=Practice|L=Information System|I=Clinical Instrument System"`
+	Text   CommentText `lis2a:"3,required,len=1,display=Comment"`
+	Type   ST          `lis2a:"4,len=1,display=Comment Type: G=Generic|T=Result Name|P=Positive Result|N=Negative Result|I=Instrument Flags"`
 }
 
 // Request Information Record
 type Q struct {
 	LIS2A LIS2AName `lis2a:",name=Q,type=s"`
 	SetID SI        `lis2a:"1,seq,required,len=4,display=Set ID - Q"`
+	// TODO: Finish this record.
 }
 
 // Scientific Record
 type S struct {
 	LIS2A LIS2AName `lis2a:",name=S,type=s"`
 	SetID SI        `lis2a:"1,seq,required,len=4,display=Set ID - S"`
+	// TODO: Finish this record.
 }
 
 // Manufacturer Information Record
 type M struct {
 	LIS2A LIS2AName `lis2a:",name=M,type=s"`
 	SetID SI        `lis2a:"1,seq,required,len=4,display=Set ID - M"`
+	// TODO: Finish this record.
 }
 
 // Last Record
 type L struct {
 	LIS2A LIS2AName `lis2a:",name=L,type=s"`
 	SetID SI        `lis2a:"1,seq,required,len=4,display=Set ID - L"`
+	Code  ST        `lis2a:"2,required,len=1,display=Termination Code: N=Normal|T=Sender Aborted|R=Receiver Requested Abort|E=Error|Q=Error in request for information"`
 }
 
 // Datatype
@@ -219,7 +227,7 @@ type Address struct {
 
 // Provider and User Name- 5.6.6
 type Name struct {
-	LIS2A  LIS2AName `lis2a:",name=Address,len=1000,type=d"`
+	LIS2A  LIS2AName `lis2a:",name=Name,len=1000,type=d"`
 	Last   ST        `lis2a:"1,conditional,len=250,display=Last"`
 	First  ST        `lis2a:"2,conditional,len=250,display=First"`
 	Middle ST        `lis2a:"3,conditional,len=250,display=Middle Initial or Name"`
@@ -229,7 +237,7 @@ type Name struct {
 
 // Provider and User Name with ID - 5.6.6
 type NameID struct {
-	LIS2A  LIS2AName `lis2a:",name=Address,len=1000,type=d"`
+	LIS2A  LIS2AName `lis2a:",name=Name and ID,len=1000,type=d"`
 	ID     ST        `lis2a:"1,conditional,len=250,display=ID"`
 	Last   ST        `lis2a:"2,conditional,len=250,display=Last"`
 	First  ST        `lis2a:"3,conditional,len=250,display=First"`
@@ -240,14 +248,14 @@ type NameID struct {
 
 // Specimen ID - 8.4.3
 type SpecimenID struct {
-	LIS2A LIS2AName `lis2a:",name=Address,len=1000,type=d"`
+	LIS2A LIS2AName `lis2a:",name=Specimen ID,len=1000,type=d"`
 	ID    ST        `lis2a:"1,conditional,len=250,display=ID"`
 	Spec1 ST        `lis2a:"2,conditional,len=250,display=Specifier 1"`
 	Spec2 ST        `lis2a:"3,conditional,len=250,display=Specifier 2"`
 }
 
 type GlobalID struct {
-	LIS2A LIS2AName `lis2a:",name=Address,len=1000,type=d"`
+	LIS2A LIS2AName `lis2a:",name=Global ID,len=1000,type=d"`
 	ID1   ST        `lis2a:"1,conditional,len=250,display=ID 1"`
 	ID2   ST        `lis2a:"2,conditional,len=250,display=ID 2"`
 	ID3   ST        `lis2a:"3,conditional,len=250,display=ID 3"`
@@ -256,4 +264,19 @@ type GlobalID struct {
 	ID6   ST        `lis2a:"6,conditional,len=250,display=ID 6"`
 	ID7   ST        `lis2a:"7,conditional,len=250,display=ID 7"`
 	ID8   ST        `lis2a:"8,conditional,len=250,display=ID 8"`
+}
+
+type CommentText struct {
+	LIS2A LIS2AName `lis2a:",name=Comment Text,len=1000,type=d"`
+	C1    ST        `lis2a:"1,conditional,len=250,display=C 1"`
+	C2    ST        `lis2a:"2,conditional,len=250,display=C 2"`
+	C3    ST        `lis2a:"3,conditional,len=250,display=C 3"`
+	C4    ST        `lis2a:"4,conditional,len=250,display=C 4"`
+	C5    ST        `lis2a:"5,conditional,len=250,display=C 5"`
+	C6    ST        `lis2a:"6,conditional,len=250,display=C 6"`
+}
+type DataValue struct {
+	LIS2A          LIS2AName `lis2a:",name=Data or Measurement Value,len=1000,type=d"`
+	Value          ST        `lis2a:"1,conditional,len=1000,display=Value"`
+	Interpretation ST        `lis2a:"2,conditional,len=1000,display=Interpretation"`
 }

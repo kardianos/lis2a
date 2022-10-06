@@ -23,7 +23,7 @@ func TestRoundTrip(t *testing.T) {
 	}
 	t.Logf("GOT: %+v", got)
 
-	encode := NewEncoder(nil)
+	encode := NewEncoder(&EncodeOption{TrimTrailingSeparator: true})
 	gg, err := encode.Encode(got)
 	if err != nil {
 		t.Fatal(err)
