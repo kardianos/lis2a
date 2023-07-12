@@ -30,11 +30,11 @@ C|17|L|Iso Coded Note 2:^^
 C|18|L|Iso Coded Note 3:^^
 C|19|L|Iso Coded Note 4:^^
 R|1|^^^ID^ORG1|P.STUT^Pseudomonas stutzeri^P.stutzeri
-C|1|I|TESTAGN^ARABIN^Arabinose^Arabinose^0.010
+C|1|I|TESTAGN^ARABIN^Arabinose1^Arabinose1^0.010
 R|2|^^^ID^ORG2|P.AER^Pseudomonas aeruginosa^P.aeruginosa
 C|1|I|TESTAGN^LYSINE^Lysine^Lysine^0.860
 R|3|^^^ID^ORG3|P.PUT^Pseudomonas putida^P.putida
-C|1|I|TESTAGN^ARABIN^Arabinose^Arabinose^0.120
+C|1|I|TESTAGN^ARABIN^Arabinose2^Arabinose2^0.120
 C|2|I|TESTAGN^FR5^FR5^FR5^0.120
 R|4|^^^ID^GROUPORG|PSE.SP^Pseudomonas species^Pseudomon.sp
 R|5|^^^ID^WILCOX1|0.4228480830

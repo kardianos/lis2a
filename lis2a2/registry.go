@@ -43,6 +43,8 @@ var SegmentRegistry = map[string]any{
 // Trigger lookup by ID.
 var TriggerRegistry = map[string]any{
 	"NCCLS LIS2-A": LIS2_A2{},
+	"E 1394-97":    LIS2_A2{},
+	"E_1394-97":    LIS2_A2{},
 }
 
 // Data Type lookup by ID.

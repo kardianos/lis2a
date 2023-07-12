@@ -1,3 +1,4 @@
+// Package lis2a2 implements ASTM E1394-97 and LIS2-A2 type registry.
 package lis2a2
 
 import "time"
@@ -65,10 +66,10 @@ type LIS2_A2_R struct {
 	Comment []C       `lis2a:"2,required,display=Comment"`
 }
 type LIS2_A2_O struct {
-	LIS2A   LIS2AName `lis2a:",name=LIS2_A2_O,type=tg"`
-	Order   O         `lis2a:"1,required,display=Order"`
-	Comment []C       `lis2a:"2,required,display=Comment"`
-	Result  []R       `lis2a:"3,required,display=Result List"`
+	LIS2A   LIS2AName   `lis2a:",name=LIS2_A2_O,type=tg"`
+	Order   O           `lis2a:"1,required,display=Order"`
+	Comment []C         `lis2a:"2,required,display=Comment"`
+	Result  []LIS2_A2_R `lis2a:"3,required,display=Result List"`
 }
 
 type LIS2_A2_P struct {
@@ -95,9 +96,9 @@ type H struct {
 	EncodingCharacters ST        `lis2a:"2,noescape,fieldchars,required,len=3,display=Encoding Characters"`
 	MessageControlID   ST        `lis2a:"3,required,len=6,display=Message Control ID"`
 	AccessPassword     ST        `lis2a:"4,required,len=60,display=Access Password"`
-	SenderID           ST        `lis2a:"5,required,len=60,display=Sender ID"`
+	SenderID           Source    `lis2a:"5,required,len=60,display=Sender ID"`
 	SenderAddress      Address   `lis2a:"6,required,len=600,display=Sender Address"`
-	ReceiverID         ST        `lis2a:"10,len=1,display=Receiver ID to verify who this is intended for."`
+	ReceiverID         Source    `lis2a:"10,len=1,display=Receiver ID to verify who this is intended for."`
 	ProcessingID       ST        `lis2a:"12,required,len=1,display=How this message shoule be processed: P=Production|T=Training|D=Debug|Q=QA"`
 	MessageVersion     ID        `lis2a:"13,required,len=100,display=Message Structure"`
 	MessageDateTime    TS        `lis2a:"14,len=26,format=YMDHMS,display=This field contains the date and time that the message was generated."`
@@ -109,36 +110,47 @@ func (h H) MessageStructureID() string {
 
 // Patient - 7
 type P struct {
-	LIS2A        LIS2AName `lis2a:",name=P,type=s"`
-	SetID        SI        `lis2a:"1,seq,required,len=4,display=Set ID - P"`
-	PracticeID   ID        `lis2a:"2,len=100,display=Practice assigned patient ID."`
-	LabID        ID        `lis2a:"3,len=100,display=Laboratory assigned patient ID."`
-	GlobalID     ID        `lis2a:"4,len=100,display=Global patient ID such as SSN."`
-	PatientName  Name      `lis2a:"5,len=1000,display=Patient Name."`
-	MotherMaiden ST        `lis2a:"6,len=1000,display=Patient's Mother's Maiden Name."`
-	DateOfBirth  TS        `lis2a:"7,len=8,format=YMD,display=Patient's Date of Birth."`
-	Sex          ST        `lis2a:"8,len=1,display=One of: M|F|U."`
+	LIS2A         LIS2AName `lis2a:",name=P,type=s"`
+	SetID         SI        `lis2a:"1,seq,required,len=4,display=Set ID - P"`
+	PracticeID    ID        `lis2a:"2,len=100,display=Practice assigned patient ID."`
+	LabID         ID        `lis2a:"3,len=100,display=Laboratory assigned patient ID."`
+	GlobalID      ID        `lis2a:"4,len=100,display=Global patient ID such as SSN."`
+	PatientName   Name      `lis2a:"5,len=1000,display=Patient Name."`
+	MotherMaiden  ST        `lis2a:"6,len=1000,display=Patient's Mother's Maiden Name."`
+	DateOfBirth   TS        `lis2a:"7,len=8,format=YMD,display=Patient's Date of Birth."`
+	Sex           ST        `lis2a:"8,len=1,display=One of: M|F|U."`
+	SpecialField1 ST        `lis2a:"14,display=Special Field 1"`
+	SpecialField2 ST        `lis2a:"15,display=Special Field 2"`
 	// TODO: Fill out up to 7.35.
 }
 
 // Test Order Record
 type O struct {
-	LIS2A        LIS2AName  `lis2a:",name=O,type=s"`
-	SetID        SI         `lis2a:"1,seq,required,len=4,display=Set ID - O"`
-	ID           SpecimenID `lis2a:"2,required,len=100,display=Specimen ID"`
-	InstrumentID SpecimenID `lis2a:"3,required,len=100,display=Instrument Specimen ID"`
-	GlobalID     GlobalID   `lis2a:"4,required,len=100,display=Global Specimen ID"`
-	Priority     []ST       `lis2a:"5,required,len=10,display=Test priority: S=STAT|A=ASAP|R=Routine|C=Callback|P=Preoperative"`
-	Action       ST         `lis2a:"11,required,len=1,display=What action to take with the order: C=Cancel|A=Add|N=New|P=Pending|L=Reserved|X=Already in Process|Q=Treat as QA"`
-	ReportType   ST         `lis2a:"25,required,len=1,display=Report Type: O=Order|C=Corrected|P=Preliminary|F=Final|X=Cancelled|I=Pending|Y=No order for test|Z=No record of patient|Q=Response to query"`
+	LIS2A            LIS2AName  `lis2a:",name=O,type=s"`
+	SetID            SI         `lis2a:"1,seq,required,len=4,display=Set ID - O"`
+	ID               SpecimenID `lis2a:"2,required,len=100,display=Specimen ID"`
+	InstrumentID     SpecimenID `lis2a:"3,required,len=100,display=Instrument Specimen ID"`
+	GlobalID         GlobalID   `lis2a:"4,required,len=100,display=Global Specimen ID"`
+	Priority         []ST       `lis2a:"5,required,len=10,display=Test priority: S=STAT|A=ASAP|R=Routine|C=Callback|P=Preoperative"`
+	Action           ST         `lis2a:"11,required,len=1,display=What action to take with the order: C=Cancel|A=Add|N=New|P=Pending|L=Reserved|X=Already in Process|Q=Treat as QA"`
+	ReceivedDateTime TS         `lis2a:"14,len=26,format=YMDHMS,display=Date and time the order was received."`
+	SpecimenDesc     GlobalID   `lis2a:"15,display=Specimen Description"`
+	UserField2       GlobalID   `lis2a:"19"`
+	ReportType       ST         `lis2a:"25,required,len=1,display=Report Type: O=Order|C=Corrected|P=Preliminary|F=Final|X=Cancelled|I=Pending|Y=No order for test|Z=No record of patient|Q=Response to query"`
+	InfectionFlag    ST         `lis2a:"28,required,len=1,display=Infection"`
 }
 
 // Result Record
 type R struct {
-	LIS2A LIS2AName `lis2a:",name=R,type=s"`
-	SetID SI        `lis2a:"1,seq,required,len=4,display=Set ID - R"`
-	ID    GlobalID  `lis2a:"2,required,len=1000,display=Universal Test ID"`
-	Value DataValue `lis2a:"3,required,len=1000,display=Data Value and Interpretation"`
+	LIS2A             LIS2AName `lis2a:",name=R,type=s"`
+	SetID             SI        `lis2a:"1,seq,required,len=4,display=Set ID - R"`
+	ID                GlobalID  `lis2a:"2,required,len=1000,display=Universal Test ID"`
+	Value             DataValue `lis2a:"3,required,len=1000,display=Data Value and Interpretation"`
+	Unit              ST        `lis2a:"4,display=Units"`
+	Status            ST        `lis2a:"8,len=1,display=Result Status: P=Preliminary result|X=Order cannot be done"`
+	TestStartDateTime TS        `lis2a:"11,len=26,format=YMDHMS,display=Date and time the testing started."`
+	TestEndDateTime   TS        `lis2a:"12,len=26,format=YMDHMS,display=Date and time the testing completed."`
+	InstrumentID      ST        `lis2a:"13,len=1,display=Instrument Identification"`
 }
 
 // Comment Record
@@ -276,7 +288,16 @@ type CommentText struct {
 	C6    ST        `lis2a:"6,conditional,len=250,display=C 6"`
 }
 type DataValue struct {
-	LIS2A          LIS2AName `lis2a:",name=Data or Measurement Value,len=1000,type=d"`
-	Value          ST        `lis2a:"1,conditional,len=1000,display=Value"`
-	Interpretation ST        `lis2a:"2,conditional,len=1000,display=Interpretation"`
+	LIS2A           LIS2AName `lis2a:",name=Data or Measurement Value,len=1000,type=d"`
+	Value           ST        `lis2a:"1,conditional,len=1000,display=Value"`
+	Interpretation1 ST        `lis2a:"2,conditional,len=1000,display=Interpretation"`
+	Interpretation2 ST        `lis2a:"3,conditional,len=1000,display=Interpretation 2"`
+}
+
+type Source struct {
+	LIS2A              LIS2AName `lis2a:",name=Source,len=1000,type=d"`
+	Name               ST        `lis2a:"1,conditional,len=250,display=Name"`
+	ApplicationName    ST        `lis2a:"2,conditional,len=250,display=Application Name"`
+	ApplicationVersion ST        `lis2a:"3,conditional,len=250,display=Application Version"`
+	Number             ST        `lis2a:"4,conditional,len=250,display=Number"`
 }

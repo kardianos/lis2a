@@ -460,6 +460,9 @@ func (d *lineDecoder) parseDateTime(dt string) (time.Time, error) {
 	}
 	switch len(dt) {
 	default:
+		if len(dt) < 12 {
+			return t, fmt.Errorf("datetime %q invalid, less then 12 bytes in length", dt)
+		}
 		in = dt[:12]
 		t, err = time.Parse("200601021504", in)
 	case 0:

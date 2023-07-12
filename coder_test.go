@@ -2,11 +2,12 @@ package lis2a
 
 import (
 	"bytes"
+	"fmt"
 	"os"
 	"path/filepath"
+	"regexp"
 	"testing"
 
-	"github.com/kardianos/lis2a/e139497"
 	"github.com/kardianos/lis2a/lis2a2"
 )
 
@@ -16,8 +17,7 @@ func TestRoundTrip(t *testing.T) {
 		Registry Registry
 	}{
 		{"lis2a.txt", lis2a2.Registry},
-		{"lis2a.txt", e139497.Registry},
-		{"esr.txt", e139497.Registry},
+		{"esr.txt", lis2a2.Registry},
 	}
 	for _, item := range list {
 		t.Run(item.Filename, func(t *testing.T) {
@@ -32,7 +32,6 @@ func TestRoundTrip(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			t.Logf("GOT: %+v", got)
 
 			encode := NewEncoder(&EncodeOption{TrimTrailingSeparator: true})
 			gg, err := encode.Encode(got)
@@ -41,6 +40,62 @@ func TestRoundTrip(t *testing.T) {
 			}
 			gg = bytes.ReplaceAll(gg, []byte{'\r'}, []byte{'\n'})
 			t.Logf("Round Trip:\n%s\n", gg)
+			ffTrim := trimTrailing(ff)
+
+			if err := lineEqual(ffTrim, gg); err != nil {
+				t.Fatal(err)
+			}
 		})
 	}
+}
+
+// Remove trailing hat "^" within fields.
+var matchTrailingHat = regexp.MustCompile(`(\^+)(\||$)`)
+
+func trimTrailing(bb []byte) []byte {
+	lines := split(bb)
+
+	for i, line := range lines {
+		x := matchTrailingHat.ReplaceAll(line, []byte("$2"))
+		x = bytes.TrimRight(x, "|")
+		lines[i] = x
+	}
+	return bytes.Join(lines, []byte{'\n'})
+}
+
+func split(bb []byte) [][]byte {
+	return bytes.FieldsFunc(bb, func(r rune) bool {
+		switch r {
+		default:
+			return false
+		case '\r', '\n':
+			return true
+		}
+	})
+}
+
+func lineEqual(aa, bb []byte) error {
+	al, bl := split(aa), split(bb)
+	ai, bi := len(al), len(bl)
+	ct := ai
+	if bi < ct {
+		ct = bi
+	}
+	if ct == 0 {
+		if ai != bi {
+			return fmt.Errorf("different line lengths: %d, %d", ai, bi)
+		}
+		return nil
+	}
+
+	for i := 0; i < ct; i++ {
+		a, b := al[i], bl[i]
+		if !bytes.Equal(a, b) {
+			return fmt.Errorf("line %d %q vs %q", i+1, a, b)
+		}
+	}
+	if ai != bi {
+		return fmt.Errorf("different line lengths: %d, %d", ai, bi)
+	}
+	return nil
 }
