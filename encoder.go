@@ -12,7 +12,7 @@ const nextLine = '\r'
 const defaultSep = "|"
 const defaultChars = `\^&`
 
-// Create a new Encoder. Options may be nil.
+// NewEncoder creates a new Encoder. Options may be nil.
 func NewEncoder(opt *EncodeOption) *Encoder {
 	e := &Encoder{}
 	if opt != nil {
@@ -21,73 +21,92 @@ func NewEncoder(opt *EncodeOption) *Encoder {
 	return e
 }
 
-// Encoding options.
+// EncodeOption sets options for the LIS2A encoder.
 type EncodeOption struct {
 	TrimTrailingSeparator bool
+
+	// Location, if set, converts date-times to this location before they are written.
+	// Applies to date-time formats (YMDHMS, YMDHM and the default);
+	// date-only (YMD) and time-only (HM) values are written as-is.
+	Location *time.Location
+
+	// ZoneOffset appends the UTC offset (+/-ZZZZ) to date-time values.
+	// Applies to the same formats as Location.
+	ZoneOffset bool
+
+	// Charset to write. The default is Windows-1252.
+	// Characters the charset cannot represent are an error.
+	Charset Charset
 }
 
+// Encoder encodes LIS2A structures into bytes.
+//
+// An Encoder reuses internal buffers between calls and must not be used concurrently.
 type Encoder struct {
-	// Set only from init.
-	initSep   string
-	initChars string
-
-	sep      byte // usually a |
-	repeat   byte // usually a ~
+	sep      byte    // usually a |
+	chars    [3]byte // usually \^&
+	repeat   byte    // usually a \
 	dividers []byte
 	esc      map[byte][]byte
 
 	deferred [3]*bytes.Buffer
 	buf      *bytes.Buffer
+	text     []byte // Scratch space for converting a value to the output charset.
 
 	opt EncodeOption
 }
 
+// Encode a message. The returned slice is owned by the caller.
 func (e *Encoder) Encode(message any) ([]byte, error) {
-	e.init("", "")
-
-	err := e.walk(1, reflect.ValueOf(message))
+	e.reset()
+	err := e.setDelimiters("", "")
 	if err != nil {
 		return nil, err
 	}
-	return e.buf.Bytes(), nil
+
+	err = e.walk(1, reflect.ValueOf(message))
+	if err != nil {
+		return nil, err
+	}
+	// Write the record terminator of the final segment.
+	e.flushDeferred(0)
+	return append([]byte(nil), e.buf.Bytes()...), nil
 }
 
-// Init separators and reset buffers.
-// If sep or chars are empty, then the previous value or the default will be used.
-func (e *Encoder) init(sep, chars string) {
-	if len(sep) > 0 {
-		sep = e.initSep
-	}
-	if len(sep) == 0 {
-		sep = defaultSep
-	}
-
-	if len(chars) == 0 {
-		chars = e.initSep
-	}
-	if len(chars) == 0 {
-		chars = defaultChars
-	}
-
-	e.sep = byte(sep[0])
-	e.repeat = chars[1]
-	e.dividers = []byte{sep[0], chars[1]}
-	if e.deferred[0] == nil {
-		e.deferred[0] = &bytes.Buffer{}
-	}
-	if e.deferred[1] == nil {
-		e.deferred[1] = &bytes.Buffer{}
-	}
-	if e.deferred[2] == nil {
-		e.deferred[2] = &bytes.Buffer{}
+// reset the output buffers.
+func (e *Encoder) reset() {
+	for i := range e.deferred {
+		if e.deferred[i] == nil {
+			e.deferred[i] = &bytes.Buffer{}
+		}
+		e.deferred[i].Reset()
 	}
 	if e.buf == nil {
 		e.buf = &bytes.Buffer{}
 	}
 	e.buf.Reset()
-	for _, d := range e.deferred {
-		d.Reset()
+}
+
+// setDelimiters sets the field separator and encoding characters.
+// If sep or chars are empty, the default is used.
+func (e *Encoder) setDelimiters(sep, chars string) error {
+	if len(sep) == 0 {
+		sep = defaultSep
 	}
+	if len(chars) == 0 {
+		chars = defaultChars
+	}
+	if len(sep) != 1 {
+		return fmt.Errorf("field separator must be 1 byte, got %d", len(sep))
+	}
+	if err := validDelimiters(sep[0], []byte(chars)); err != nil {
+		return err
+	}
+
+	e.sep = sep[0]
+	copy(e.chars[:], chars)
+	e.repeat = chars[0]
+	e.dividers = []byte{sep[0], chars[1]}
 
 	esc := chars[2]
 	e.esc = map[byte][]byte{
@@ -96,6 +115,7 @@ func (e *Encoder) init(sep, chars string) {
 		chars[0]: {esc, 'R', esc},
 		chars[2]: {esc, 'E', esc},
 	}
+	return nil
 }
 
 func (e *Encoder) walk(seq int, wv reflect.Value) error {
@@ -193,7 +213,8 @@ func (e *Encoder) encodeSegment(seq int, st reflect.Value) error {
 	}
 	var fieldList []field
 
-	var msgSep string
+	var msgSep, msgChars string
+	var hasDelimiters bool
 	for i := 0; i < st.NumField(); i++ {
 		fld := stt.Field(i)
 		f := st.Field(i)
@@ -204,9 +225,10 @@ func (e *Encoder) encodeSegment(seq int, st reflect.Value) error {
 		switch {
 		case tag.FieldSep:
 			msgSep = f.String()
+			hasDelimiters = true
 		case tag.FieldChars:
-			chars := f.String()
-			e.init(msgSep, chars)
+			msgChars = f.String()
+			hasDelimiters = true
 		}
 
 		if tag.Meta {
@@ -234,6 +256,11 @@ func (e *Encoder) encodeSegment(seq int, st reflect.Value) error {
 			value:   f.Interface(),
 		})
 	}
+	if hasDelimiters {
+		if err := e.setDelimiters(msgSep, msgChars); err != nil {
+			return fmt.Errorf("%s: %w", SegmentName, err)
+		}
+	}
 
 	if SegmentSize == 0 {
 		SegmentSize = maxOrd
@@ -247,7 +274,9 @@ func (e *Encoder) encodeSegment(seq int, st reflect.Value) error {
 		ff[index] = f
 	}
 
-	e.write(SegmentName, 0, true)
+	if err := e.write(SegmentName, 0, true); err != nil {
+		return err
+	}
 	for _, f := range ff {
 		if f.tag.Omit {
 			continue
@@ -265,9 +294,16 @@ func (e *Encoder) encodeSegment(seq int, st reflect.Value) error {
 		}
 		direct := !e.opt.TrimTrailingSeparator
 		e.writeSep(0, 0, direct)
+		if f.tag.FieldChars {
+			// Write the encoding characters in effect, already validated by setDelimiters.
+			if err := e.write(string(e.chars[:]), 0, true); err != nil {
+				return err
+			}
+			continue
+		}
 		err := e.encodeDataType(f.tag, v, 0)
 		if err != nil {
-			return err
+			return fmt.Errorf("%s.%s: %w", SegmentName, f.name, err)
 		}
 	}
 	e.resetAllDeferred()
@@ -288,24 +324,33 @@ func (e *Encoder) flushDeferred(level int) {
 	}
 }
 
-// write escapes individual values.
-func (e *Encoder) write(val string, level int, noEscape bool) {
-	if len(val) > 0 {
+// write converts individual values to the output charset and escapes them.
+//
+// Control characters (including CR and LF, which end a record) cannot be
+// escaped and are rejected, even when noEscape is set.
+func (e *Encoder) write(val string, level int, noEscape bool) error {
+	text, err := appendText(e.text[:0], val, e.opt.Charset)
+	e.text = text
+	if err != nil {
+		return err
+	}
+	if len(text) > 0 {
 		e.flushDeferred(level)
 	}
 	buf := e.buf
 	if noEscape {
-		buf.WriteString(val)
-		return
+		buf.Write(text)
+		return nil
 	}
-	for i := 0; i < len(val); i++ {
-		c := val[i]
+	// Delimiters are ASCII and never part of a multi-byte character.
+	for _, c := range text {
 		if esc, is := e.esc[c]; is {
 			buf.Write(esc)
 			continue
 		}
 		buf.WriteByte(c)
 	}
+	return nil
 }
 func (e *Encoder) resetAllDeferred() {
 	for _, d := range e.deferred {
@@ -346,9 +391,11 @@ func (e *Encoder) encodeDataType(t tag, o interface{}, level int) error {
 		default:
 			return fmt.Errorf("unknown value kind: %v", rv.Kind())
 		case reflect.Pointer:
-			rv = rv.Elem()
-			fallthrough
+			return e.encodeDataType(t, rv.Elem().Interface(), level)
 		case reflect.Struct:
+			if level+1 >= len(e.dividers) {
+				return fmt.Errorf("%v: components may not be nested more than one level", rv.Type())
+			}
 			var SegmentName string
 			var SegmentSize int32
 			var maxOrd int32
@@ -372,7 +419,7 @@ func (e *Encoder) encodeDataType(t tag, o interface{}, level int) error {
 				}
 
 				if tag.Child {
-					return fmt.Errorf("Children cannot be on this segment.")
+					return fmt.Errorf("children cannot be on this segment")
 				}
 				if !tag.Present {
 					continue
@@ -413,7 +460,7 @@ func (e *Encoder) encodeDataType(t tag, o interface{}, level int) error {
 				}
 				err := e.encodeDataType(f.tag, f.value, level+1)
 				if err != nil {
-					return fmt.Errorf("%s (%+v): %w", SegmentName, f.value, err)
+					return fmt.Errorf("%s.%s: %w", SegmentName, f.name, err)
 				}
 			}
 		case reflect.Slice:
@@ -427,31 +474,42 @@ func (e *Encoder) encodeDataType(t tag, o interface{}, level int) error {
 
 				err := e.encodeDataType(t, value, level)
 				if err != nil {
-					return fmt.Errorf("repeat (%+v): %w", value, err)
+					return fmt.Errorf("repeat %d: %w", i+1, err)
 				}
 			}
 			return nil
 		}
 	case string:
-		e.write(v, level, t.NoEscape)
+		return e.write(v, level, t.NoEscape)
 	case time.Time:
 		if v.IsZero() {
 			return nil
 		}
-		var sv string
+		var layout string
+		dateTime := true
 		switch t.Format {
 		default:
-			sv = v.Format("20060102150405")
+			layout = "20060102150405"
 		case "YMDHMS":
-			sv = v.Format("20060102150405")
+			layout = "20060102150405"
 		case "YMDHM":
-			sv = v.Format("200601021504")
+			layout = "200601021504"
 		case "YMD":
-			sv = v.Format("20060102")
+			layout = "20060102"
+			dateTime = false
 		case "HM":
-			sv = v.Format("1504")
+			layout = "1504"
+			dateTime = false
 		}
-		e.write(sv, level, t.NoEscape)
+		if dateTime {
+			if e.opt.Location != nil {
+				v = v.In(e.opt.Location)
+			}
+			if e.opt.ZoneOffset {
+				layout += "-0700"
+			}
+		}
+		return e.write(v.Format(layout), level, t.NoEscape)
 	}
 	return nil
 }

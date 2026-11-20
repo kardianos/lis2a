@@ -6,7 +6,7 @@ import (
 	"reflect"
 	"strings"
 	"time"
-	"unicode"
+	"unicode/utf8"
 )
 
 type lineDecoder struct {
@@ -16,24 +16,41 @@ type lineDecoder struct {
 	chars    [3]byte // usually "\^&"
 	escape   byte    // usually a "&"
 	readSep  bool
+	charset  Charset // Resolved for the current message, never CharsetDefault.
 
 	unescaper *strings.Replacer
 
 	opt DecodeOption
 }
 
-// Decode bytes into LIS2A structures.
+// Decoder decodes bytes into LIS2A structures.
+//
+// A Decoder holds no per-message state and may be used concurrently.
 type Decoder struct {
 	registry Registry
 	opt      DecodeOption
 }
 
-// Decode options for the LIS2A decoder.
+// DecodeOption sets options for the LIS2A decoder.
 type DecodeOption struct {
 	ErrorZSegment bool // Error on an unknown Zxx segment when true.
+
+	// LenientGroup accepts segments that arrive out of order, or without the
+	// segment that starts their group (for example an R record with no
+	// preceding O record), creating empty groups as needed.
+	// When false (the default) these return an error.
+	LenientGroup bool
+
+	// Location is used for date-times that do not include a UTC offset.
+	// If nil, UTC is used.
+	Location *time.Location
+
+	// Charset of the message. Decoded strings are always UTF-8.
+	// The default decodes valid UTF-8 as UTF-8 and anything else as Windows-1252.
+	Charset Charset
 }
 
-// Create a new Decoder. A registry must be provided. Option is optional.
+// NewDecoder creates a new Decoder. A registry must be provided. Option is optional.
 func NewDecoder(registry Registry, opt *DecodeOption) *Decoder {
 	d := &Decoder{
 		registry: registry,
@@ -45,7 +62,10 @@ func NewDecoder(registry Registry, opt *DecodeOption) *Decoder {
 	return d
 }
 
-// Decode takes an lis2a message and returns a final trigger with all segments grouped.
+// Decode takes a single lis2a message and returns a final trigger with all segments grouped.
+//
+// The entire message is held in memory; callers reading from a network or
+// device should limit the message size they accept.
 func (d *Decoder) Decode(data []byte) (any, error) {
 	list, err := d.DecodeList(data)
 	if err != nil {
@@ -58,12 +78,12 @@ func (d *Decoder) Decode(data []byte) (any, error) {
 	return g, nil
 }
 
-// Group a list of elements into trigger groupings.
+// DecodeGroup groups a list of segments into trigger groupings.
 func (d *Decoder) DecodeGroup(list []any) (any, error) {
-	return group(list, d.registry)
+	return group(list, d.registry, d.opt.LenientGroup)
 }
 
-// Decode returns a list of segments without any grouping applied.
+// DecodeList returns a list of segments without any grouping applied.
 func (d *Decoder) DecodeList(data []byte) ([]any, error) {
 	// Explicitly accept both CR and LF as new lines. Some systems do use \n, despite the spec.
 	lines := bytes.FieldsFunc(data, func(r rune) bool {
@@ -84,12 +104,15 @@ func (d *Decoder) DecodeList(data []byte) ([]any, error) {
 
 	ret := []any{}
 
-	ld := &lineDecoder{}
+	ld := &lineDecoder{opt: d.opt, charset: d.opt.Charset.resolve(data)}
 	segmentRegistry := d.registry.Segment()
 	for index, line := range lines {
 		lineNumber := index + 1
 		if len(line) == 0 {
 			continue
+		}
+		if ld.charset == CharsetUTF8 && !utf8.Valid(line) {
+			return nil, fmt.Errorf("line %d: invalid UTF-8", lineNumber)
 		}
 
 		segTypeName, n := ld.getID(line)
@@ -100,14 +123,17 @@ func (d *Decoder) DecodeList(data []byte) ([]any, error) {
 
 		seg, ok := segmentRegistry[segTypeName]
 		if !ok {
-			isZ := len(segTypeName) > 0 && segTypeName[0] == 'Z'
+			isZ := segTypeName[0] == 'Z'
 			if isZ && !d.opt.ErrorZSegment {
 				continue
 			}
-			return nil, fmt.Errorf("line %d: unknown segment type %q", lineNumber, segTypeName)
+			return nil, fmt.Errorf("line %d: unknown segment type %s", lineNumber, safeSegmentName(segTypeName))
 		}
 
 		rt := reflect.TypeOf(seg)
+		if rt == nil || rt.Kind() != reflect.Struct {
+			return nil, fmt.Errorf("line %d: segment %q registered with non-struct type %v", lineNumber, segTypeName, rt)
+		}
 		ct := rt.NumField()
 
 		fieldList := make([]field, 0, ct)
@@ -166,7 +192,10 @@ func (d *Decoder) DecodeList(data []byte) ([]any, error) {
 		offset := 0
 		if hasInit {
 			if len(remain) < 4 {
-				return nil, fmt.Errorf("missing format delims")
+				return nil, fmt.Errorf("line %d: missing format delimiters", lineNumber)
+			}
+			if err := validDelimiters(remain[0], remain[1:4]); err != nil {
+				return nil, fmt.Errorf("line %d: %w", lineNumber, err)
 			}
 			ld.sep = remain[0]
 			copy(ld.chars[:], remain[1:4])
@@ -182,7 +211,7 @@ func (d *Decoder) DecodeList(data []byte) ([]any, error) {
 		}
 
 		if ld.sep == 0 {
-			return nil, fmt.Errorf("missing sep prior to field")
+			return nil, fmt.Errorf("line %d: missing separator prior to field", lineNumber)
 		}
 
 		parts := bytes.Split(remain, []byte{ld.sep})
@@ -220,13 +249,42 @@ func (d *Decoder) DecodeList(data []byte) ([]any, error) {
 			}
 			err := ld.decodeSegmentList(p, f.tag, f.field)
 			if err != nil {
-				return ret, fmt.Errorf("line %d, %s.%s: %w", lineNumber, SegmentName, f.name, err)
+				return nil, fmt.Errorf("line %d, %s.%s: %w", lineNumber, SegmentName, f.name, err)
 			}
 		}
 
 		ret = append(ret, rv.Interface())
 	}
 	return ret, nil
+}
+
+// safeSegmentName returns a segment name for an error message.
+// Long names are likely field data from a malformed line and are not included.
+func safeSegmentName(name string) string {
+	if len(name) <= 3 {
+		return fmt.Sprintf("%q", name)
+	}
+	return fmt.Sprintf("(%d bytes)", len(name))
+}
+
+// validDelimiters ensures the field separator and encoding characters
+// are printable, not alphanumeric, and distinct from each other.
+func validDelimiters(sep byte, chars []byte) error {
+	if len(chars) != 3 {
+		return fmt.Errorf("encoding characters must be 3 bytes, got %d", len(chars))
+	}
+	all := [4]byte{sep, chars[0], chars[1], chars[2]}
+	for i, c := range all {
+		if c <= ' ' || c >= 0x7f || ('0' <= c && c <= '9') || ('A' <= c && c <= 'Z') || ('a' <= c && c <= 'z') {
+			return fmt.Errorf("invalid delimiter %q", c)
+		}
+		for _, o := range all[:i] {
+			if c == o {
+				return fmt.Errorf("delimiter %q used more than once", c)
+			}
+		}
+	}
+	return nil
 }
 
 func (d *lineDecoder) setupUnescaper() {
@@ -256,10 +314,16 @@ func (d *lineDecoder) decodeSegmentList(data []byte, t tag, rv reflect.Value) er
 	}
 	return nil
 }
+
 func (d *lineDecoder) decodeSegment(data []byte, t tag, rv reflect.Value, level int, mustBeSlice bool) error {
 	type field struct {
 		tag   tag
 		field reflect.Value
+	}
+
+	if !rv.IsValid() {
+		// No field defined at this position.
+		return nil
 	}
 
 	isSlice := rv.Kind() == reflect.Slice
@@ -269,10 +333,10 @@ func (d *lineDecoder) decodeSegment(data []byte, t tag, rv reflect.Value, level 
 
 	switch rv.Kind() {
 	default:
-		return fmt.Errorf("unknown field kind %v value=%v(%v) tag=%v data=%q", rv.Kind(), rv, rv.Type(), t, data)
+		return fmt.Errorf("unknown field kind %v (%v)", rv.Kind(), rv.Type())
 	case reflect.Interface:
 		// TODO: Support a true VARIES.
-		return fmt.Errorf("unsupported interface field kind, data=%q", data)
+		return fmt.Errorf("unsupported interface field kind")
 	case reflect.Pointer:
 		next := reflect.New(rv.Type().Elem())
 		rv.Set(next)
@@ -294,6 +358,9 @@ func (d *lineDecoder) decodeSegment(data []byte, t tag, rv reflect.Value, level 
 	case reflect.Struct:
 		switch rv.Type() {
 		default:
+			if level >= len(d.dividers) {
+				return fmt.Errorf("%v: components may not be nested more than one level", rv.Type())
+			}
 			sep := d.dividers[level]
 
 			rt := rv.Type()
@@ -362,6 +429,9 @@ func (d *lineDecoder) decodeSegment(data []byte, t tag, rv reflect.Value, level 
 					continue
 				}
 				f := ff[i]
+				if !f.field.IsValid() {
+					continue
+				}
 				err := d.decodeSegment(p, f.tag, f.field, level+1, false)
 				if err != nil {
 					return fmt.Errorf("%s-%s.%d: %w", SegmentName, f.field.Type().String(), f.tag.Order, err)
@@ -370,7 +440,7 @@ func (d *lineDecoder) decodeSegment(data []byte, t tag, rv reflect.Value, level 
 			return nil
 		case timeType:
 			v := d.decodeByte(data, t)
-			t, err := d.parseDateTime(v)
+			t, err := parseDateTime(v, d.opt.Location)
 			if err != nil {
 				return err
 			}
@@ -382,7 +452,7 @@ func (d *lineDecoder) decodeSegment(data []byte, t tag, rv reflect.Value, level 
 		for _, b := range data {
 			switch b {
 			case c1, c2:
-				return fmt.Errorf("%s contains an escape character %s; data may be malformed, invalid type, or contain a bug", t.Name, data)
+				return fmt.Errorf("%s contains a delimiter character; data may be malformed, invalid type, or contain a bug", rv.Type())
 			}
 		}
 		rv.SetString(d.decodeByte(data, t))
@@ -391,16 +461,12 @@ func (d *lineDecoder) decodeSegment(data []byte, t tag, rv reflect.Value, level 
 }
 
 func (d *lineDecoder) decodeByte(v []byte, t tag) string {
+	// Escape sequences and delimiters are ASCII, so convert before unescaping.
+	s := decodeText(v, d.charset)
 	if t.NoEscape {
-		return string(v)
+		return s
 	}
-	return d.unescaper.Replace(string(v))
-}
-func (d *lineDecoder) decodeString(v string, t tag) string {
-	if t.NoEscape {
-		return v
-	}
-	return d.unescaper.Replace(v)
+	return d.unescaper.Replace(s)
 }
 
 func (d *lineDecoder) getID(data []byte) (string, int) {
@@ -408,8 +474,8 @@ func (d *lineDecoder) getID(data []byte) (string, int) {
 		v, _, _ := bytes.Cut(data, []byte{d.sep})
 		return string(v), len(v)
 	}
-	for i, r := range data {
-		if unicode.IsLetter(rune(r)) || unicode.IsNumber(rune(r)) {
+	for i, c := range data {
+		if ('0' <= c && c <= '9') || ('A' <= c && c <= 'Z') || ('a' <= c && c <= 'z') {
 			continue
 		}
 		return string(data[:i]), i
@@ -417,66 +483,88 @@ func (d *lineDecoder) getID(data []byte) (string, int) {
 	return string(data), len(data)
 }
 
-func (d *lineDecoder) parseDateTime(dt string) (time.Time, error) {
-	var zoneIndex int
-	for i, r := range dt {
-		switch {
-		default:
-			return time.Time{}, fmt.Errorf("invalid characters in date: %q", dt)
-		case unicode.IsNumber(r):
-		case r == '.':
-		case r == '-':
-			zoneIndex = i
-		case r == '+':
-			zoneIndex = i
+// Layouts for a date-time by the number of leading digits.
+var dateTimeLayout = map[int]string{
+	4:  "2006",
+	6:  "200601",
+	8:  "20060102",
+	10: "2006010215",
+	12: "200601021504",
+	14: "20060102150405",
+}
+
+// parseDateTime parses a date-time in the form:
+//
+//	YYYY[MM[DD[HH[MM[SS[[.]S[S[S[S]]]]]]]]][+/-ZZZZ]
+//
+// Fractional seconds may be written with or without the decimal point.
+// If no UTC offset is given, loc is used (UTC if loc is nil).
+// Errors do not include the value, as it may be patient data such as a date of birth.
+func parseDateTime(dt string, loc *time.Location) (time.Time, error) {
+	if len(dt) == 0 {
+		return time.Time{}, nil // No date supplied, use zero value.
+	}
+	if loc == nil {
+		loc = time.UTC
+	}
+
+	main, zone := dt, ""
+	if i := strings.LastIndexAny(dt, "+-"); i >= 0 {
+		main, zone = dt[:i], dt[i:]
+		if len(zone) != 5 || !isDigits(zone[1:]) {
+			return time.Time{}, fmt.Errorf("invalid date-time: UTC offset must be in the form +/-ZZZZ")
 		}
 	}
-	// Format: YYYY[MM[DD[HH[MM[SS[.S[S[S[S]]]]]]]]][+/-ZZZZ]^<degree of precision>
-	// 20200522143859198-0700
-	// 20060102150405
-	in := dt
+
+	frac := ""
+	if i := strings.IndexByte(main, '.'); i >= 0 {
+		main, frac = main[:i], main[i+1:]
+		if len(main) != 14 || len(frac) == 0 {
+			return time.Time{}, fmt.Errorf("invalid date-time: fractional seconds require a full date and time")
+		}
+	} else if len(main) > 14 {
+		main, frac = main[:14], main[14:]
+	}
+	if !isDigits(main) || !isDigits(frac) {
+		return time.Time{}, fmt.Errorf("invalid date-time: unexpected characters")
+	}
+	if len(frac) > 9 {
+		return time.Time{}, fmt.Errorf("invalid date-time: too many fractional second digits")
+	}
+	layout, ok := dateTimeLayout[len(main)]
+	if !ok {
+		return time.Time{}, fmt.Errorf("invalid date-time: %d digits is not a valid precision", len(main))
+	}
+
 	var t time.Time
 	var err error
-	if zoneIndex > 0 {
-		tp := dt[:zoneIndex]
-		zp := dt[zoneIndex:]
-
-		switch len(dt) {
-		default:
-			in = tp[:12] + zp
-			t, err = time.Parse("200601021504-0700", in)
-		case 8 + 5: // To the day.
-			t, err = time.Parse("20060102-0700", in)
-		case 12 + 5: // To the minute.
-			t, err = time.Parse("200601021504-0700", in)
-		case 14 + 5, 16 + 5: // To the second.
-			in = tp[:14] + zp
-			t, err = time.Parse("20060102150405-0700", in)
-		}
-		if err != nil {
-			err = fmt.Errorf("field %q: %w", dt, err)
-		}
-		return t, err
-	}
-	switch len(dt) {
-	default:
-		if len(dt) < 12 {
-			return t, fmt.Errorf("datetime %q invalid, less then 12 bytes in length", dt)
-		}
-		in = dt[:12]
-		t, err = time.Parse("200601021504", in)
-	case 0:
-		t, err = time.Time{}, nil // No date supplied, use zero value
-	case 8: // To the day.
-		t, err = time.Parse("20060102", in)
-	case 12: // To the minute.
-		t, err = time.Parse("200601021504", in)
-	case 14, 16: // To the second.
-		in = dt[:14]
-		t, err = time.Parse("20060102150405", in)
+	if len(zone) > 0 {
+		t, err = time.Parse(layout+"-0700", main+zone)
+	} else {
+		t, err = time.ParseInLocation(layout, main, loc)
 	}
 	if err != nil {
-		err = fmt.Errorf("field %q : %w", dt, err)
+		// Do not wrap the time error, it includes the input value.
+		return time.Time{}, fmt.Errorf("invalid date-time: out of range value")
 	}
-	return t, err
+	if len(frac) > 0 {
+		ns := 0
+		for i := 0; i < 9; i++ {
+			ns *= 10
+			if i < len(frac) {
+				ns += int(frac[i] - '0')
+			}
+		}
+		t = t.Add(time.Duration(ns))
+	}
+	return t, nil
+}
+
+func isDigits(s string) bool {
+	for i := 0; i < len(s); i++ {
+		if s[i] < '0' || s[i] > '9' {
+			return false
+		}
+	}
+	return true
 }
